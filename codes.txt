@@ -1,0 +1,21 @@
+// protocol treats everything as an ERC-20 token
+// because it is much easier to send and interact with stuff
+// but etherum or the native blockchain token isn't ERC-20 token
+// on a lot of these protocols, when we go to deposit Ethereum, Polygon etc. They send our Ethereum through a WETH gateway and swaps it for WETH
+// WETH => Ethereum but in an ERC-20 token contract
+
+
+// do yarn hardhat compile to get the ABI for the weth contract interface
+
+
+// MAINNET FORKING IN HARDHAT:
+// fork the mainnet and run a local hardhat node that's pretending to be a mainnet node
+// update hardhat config to do so
+// copying the mainnet blockchain to our local environment and work on the simulation
+// forking doesn't download the entire blockchain on our local setup
+// anytime we reference an address we make an API call to our Ethrerum node and it will return just that specific contract for us
+// we can do forking to run test, run scripts and everything else
+// TradeOffs =>
+// Pros: Quick, easy, resemble what's on the mainnet
+// Cons: need API, some contracts are complex to work with and mocks are better
+// forking will also give us a bunch of fake accounts
