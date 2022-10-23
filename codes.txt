@@ -19,3 +19,10 @@
 // Pros: Quick, easy, resemble what's on the mainnet
 // Cons: need API, some contracts are complex to work with and mocks are better
 // forking will also give us a bunch of fake accounts
+
+// ILendingPool.sol have imports from local places that we don't have in our contracts folder
+// adding aave protocol v2 from npm and using these as imports
+// getting aave in node modules
+// update these imports to point to node modules
+yarn add --dev @aave/protocol-v2
+// we could have optionally also used the interfaces from this package
