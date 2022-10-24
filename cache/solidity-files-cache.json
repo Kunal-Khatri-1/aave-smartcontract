@@ -1,12 +1,12 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "F:\\Work\\BlockChain\\Ethereum\\hardhat-defi-fcc\\contracts\\interfaces\\IWeth.sol": {
-      "lastModificationDate": 1666522080739,
-      "contentHash": "2c03a8879dbd07307f3f6c0986ad3d35",
-      "sourceName": "contracts/interfaces/IWeth.sol",
+    "F:\\Work\\BlockChain\\Ethereum\\hardhat-defi-fcc\\contracts\\interfaces\\IERC20.sol": {
+      "lastModificationDate": 1666588893632,
+      "contentHash": "094bfe74ee1375dd87a4d90b1a018de0",
+      "sourceName": "contracts/interfaces/IERC20.sol",
       "solcConfig": {
-        "version": "0.4.19",
+        "version": "0.6.12",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -37,10 +37,10 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.4.19"
+        "^0.6.6"
       ],
       "artifacts": [
-        "IWeth"
+        "IERC20"
       ]
     },
     "F:\\Work\\BlockChain\\Ethereum\\hardhat-defi-fcc\\contracts\\interfaces\\ILendingPool.sol": {
@@ -170,6 +170,48 @@
       ],
       "artifacts": [
         "DataTypes"
+      ]
+    },
+    "F:\\Work\\BlockChain\\Ethereum\\hardhat-defi-fcc\\contracts\\interfaces\\IWeth.sol": {
+      "lastModificationDate": 1666522080739,
+      "contentHash": "2c03a8879dbd07307f3f6c0986ad3d35",
+      "sourceName": "contracts/interfaces/IWeth.sol",
+      "solcConfig": {
+        "version": "0.4.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.4.19"
+      ],
+      "artifacts": [
+        "IWeth"
       ]
     }
   }
