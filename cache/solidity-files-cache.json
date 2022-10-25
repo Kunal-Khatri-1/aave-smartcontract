@@ -213,6 +213,48 @@
       "artifacts": [
         "IWeth"
       ]
+    },
+    "F:\\Work\\BlockChain\\Ethereum\\hardhat-defi-fcc\\contracts\\interfaces\\AggregatorV3Interface.sol": {
+      "lastModificationDate": 1666593157022,
+      "contentHash": "71d288cfc4ed5fb3107f134755ac2ad9",
+      "sourceName": "contracts/interfaces/AggregatorV3Interface.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "AggregatorV3Interface"
+      ]
     }
   }
 }
