@@ -1,5 +1,8 @@
-const { getNamedAccounts, ethers } = require("hardhat")
+const { getNamedAccounts, ethers, network } = require("hardhat")
 const { getWeth, AMOUNT } = require("../scripts/getWeth")
+const { networkConfig } = require("../helper-hardhat-config")
+
+const chainId = network.config.chainId
 
 async function main() {
     await getWeth()
@@ -24,8 +27,12 @@ async function main() {
 
     // approve to get our WETH token
     // getting WETH token
-    const wethTokenAddress = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-    await approveErc20(wethTokenAddress, lendingPool.address, AMOUNT, deployer)
+    await approveErc20(
+        networkConfig[chainId]["wethTokenAddress"],
+        lendingPool.address,
+        AMOUNT,
+        deployer
+    )
 
     // depositing
     console.log(`depositing...`)
@@ -35,10 +42,11 @@ async function main() {
     // onBehalfOf => on behalf of ourselves
     // referralCode => 0 (has been discontinued)
 
-    // when we deposit collateral we get Aaave Tokens
+    // when we deposit collateral we get aWeth tokens =>
     // They track how much web token we have deposited in the Aave Protocol
     // When we withdraw collateral back we burn Aave tokens
-    await lendingPool.deposit(wethTokenAddress, AMOUNT, deployer, 0)
+    // this aWeth is the interset bearing token
+    await lendingPool.deposit(networkConfig[chainId]["wethTokenAddress"], AMOUNT, deployer, 0)
     console.log(`deposited`)
 
     // Time to Borrow
@@ -61,7 +69,7 @@ async function main() {
     //      function to liquidate somebody
     //      build a bot to liquidate users who got insolvent and make a fee/reward for doing it
 
-    let { availableBorrowsETH, totalDebtETH } = await getBorrowUserData(lendingPool, deployer)
+    let { availableBorrowsETH } = await getBorrowUserData(lendingPool, deployer)
     console.log(`availableBorrowsETH: ${availableBorrowsETH}`)
 
     // convert availableBorrowsETH from ETH to DAI
@@ -84,7 +92,7 @@ async function main() {
     const amountDaiToBorrowWei = ethers.utils.parseEther(amountDaiToBorrow.toString())
     console.log(`amountDaiToBorrow: ${amountDaiToBorrow}`)
 
-    const daiTokenAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+    const daiTokenAddress = networkConfig[chainId]["daiTokenAddress"]
     await borrowDai(daiTokenAddress, lendingPool, amountDaiToBorrowWei, deployer)
     await getBorrowUserData(lendingPool, deployer)
 
@@ -114,13 +122,12 @@ async function getLendingPool(account) {
 
     const lendingPoolAddressesProvider = await ethers.getContractAt(
         "ILendingPoolAddressesProvider",
-        "0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5",
+        networkConfig[chainId]["lendingPoolAddressesProviderAddress"],
         account
     )
     console.log(`LendingPoolAddressProvider address ${lendingPoolAddressesProvider.address}`)
 
     const lendingPoolAddress = await lendingPoolAddressesProvider.getLendingPool()
-    console.log(`lendingPool address ${lendingPoolAddress}`)
 
     const lendingPool = ethers.getContractAt("ILendingPool", lendingPoolAddress, account)
 
@@ -142,7 +149,7 @@ async function getDaiPrice() {
     // txn => signer
     const daiEthPriceFeed = await ethers.getContractAt(
         "AggregatorV3Interface",
-        "0x773616E4d11A78F511299002da57A0a94577F1f4"
+        networkConfig[chainId]["priceFeedAddress"]
     )
 
     // return(uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
