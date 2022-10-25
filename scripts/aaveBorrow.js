@@ -34,6 +34,10 @@ async function main() {
     // amount => how much of the asset
     // onBehalfOf => on behalf of ourselves
     // referralCode => 0 (has been discontinued)
+
+    // when we deposit collateral we get Aaave Tokens
+    // They track how much web token we have deposited in the Aave Protocol
+    // When we withdraw collateral back we burn Aave tokens
     await lendingPool.deposit(wethTokenAddress, AMOUNT, deployer, 0)
     console.log(`deposited`)
 
@@ -82,7 +86,11 @@ async function main() {
 
     const daiTokenAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
     await borrowDai(daiTokenAddress, lendingPool, amountDaiToBorrowWei, deployer)
+    await getBorrowUserData(lendingPool, deployer)
 
+    // after repaying the amountDaiToBorrowWei of Dai in Wei units we will still have some amount of ETH borrowed
+    // This is because we accrued interset => we have to give more DAI
+    await repay(amountDaiToBorrowWei, daiTokenAddress, lendingPool, deployer)
     await getBorrowUserData(lendingPool, deployer)
 }
 
@@ -149,6 +157,14 @@ async function borrowDai(daiAddress, lendingPool, amountDaiToBorrowWei, account)
     const borrowTx = await lendingPool.borrow(daiAddress, amountDaiToBorrowWei, 1, 0, account)
     await borrowTx.wait(1)
     console.log(`You've borrowed`)
+}
+
+// to repay we have to approve sending our DAI back to Aave
+async function repay(amount, daiAddress, lendingPool, account) {
+    await approveErc20(daiAddress, lendingPool.address, amount, account)
+    // repay(address asset, uint256 amount, uint256 rateMode, address onBehalfOf)
+    const repayTx = await lendingPool.repay(daiAddress, amount, 1, account)
+    console.log(`Repaid ${amount} of DAI in Wei`)
 }
 
 main()
